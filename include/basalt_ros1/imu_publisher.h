@@ -20,7 +20,7 @@ namespace basalt_ros1 {
 
 class IMUPublisher {
  public:
-  typedef tbb::concurrent_bounded_queue<std::shared_ptr<basalt::ImuData>>
+  typedef tbb::concurrent_bounded_queue<std::shared_ptr<basalt::ImuData<double>>>
       ImuDataQueue;
   IMUPublisher(const ros::NodeHandle& node,
                const std::string& topic);

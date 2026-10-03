@@ -47,7 +47,7 @@ class VIOBackEnd {
   std::shared_ptr<OpticalFlowSubscriber> flowSub_;
   basalt::VioEstimatorBase::Ptr vio_;
   std::shared_ptr<basalt_ros1::VIOPublisher> publisher_;
-  tbb::concurrent_bounded_queue<basalt::PoseVelBiasState::Ptr> outputQueue_;
+  tbb::concurrent_bounded_queue<basalt::PoseVelBiasState<double>::Ptr> outputQueue_;
   std::thread thread_;
 };
 }  // namespace basalt_ros1

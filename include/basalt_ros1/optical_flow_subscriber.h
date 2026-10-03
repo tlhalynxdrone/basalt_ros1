@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <basalt_vio_ros1_msgs/OpticalFlowResult.h>
+#include <basalt_vio_msgs/OpticalFlowResult.h>
 
 #include <basalt/optical_flow/optical_flow.h>
 
@@ -17,7 +17,7 @@
 namespace basalt_ros1 {
 class OpticalFlowSubscriber {
  public:
-  typedef basalt_vio_ros1_msgs::OpticalFlowResult OpticalFlowMsg;
+  typedef basalt_vio_msgs::OpticalFlowResult OpticalFlowMsg;
   typedef boost::shared_ptr<const OpticalFlowMsg> OpticalFlowMsgConstPtr;
 
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW

@@ -84,7 +84,7 @@ void IMUSubscriber::callback_accel(ImuConstPtr const &accel) {
     const Eigen::Vector3d accel_interp = w0 * prev_acc + w1 * curr_acc;
 
     // make data packet in basalt format
-    basalt::ImuData::Ptr data(new basalt::ImuData());
+    basalt::ImuData<double>::Ptr data(new basalt::ImuData<double>());
     data->t_ns = t_gyro * 1e6;
     data->accel = accel_interp;
     data->gyro << gyroMsg->angular_velocity.x, gyroMsg->angular_velocity.y,
@@ -126,7 +126,7 @@ void IMUSubscriber::callback_combined(ImuConstPtr const &msg) {
   lastMsgTime_ = msg->header.stamp;
   const double t = stamp_to_float(msg);
   // make data packet in basalt format
-  basalt::ImuData::Ptr data(new basalt::ImuData());
+  basalt::ImuData<double>::Ptr data(new basalt::ImuData<double>());
   data->t_ns = t * 1e6;
   data->accel << msg->linear_acceleration.x, msg->linear_acceleration.y,
       msg->linear_acceleration.z;

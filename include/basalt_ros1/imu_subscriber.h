@@ -21,7 +21,7 @@ using sensor_msgs::ImuConstPtr;
 
 class IMUSubscriber {
  public:
-  typedef tbb::concurrent_bounded_queue<std::shared_ptr<basalt::ImuData>>
+  typedef tbb::concurrent_bounded_queue<std::shared_ptr<basalt::ImuData<double>>>
       ImuDataQueue;
   typedef std::shared_ptr<ImuDataQueue> ImuDataQueuePtr;
 

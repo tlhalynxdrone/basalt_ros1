@@ -22,6 +22,24 @@ if(NOT CXX_MARCH)
   set(CXX_MARCH native)
 endif()
 
+
+option(BUILD_GET_CALIBRATION "Build get_calibration (needs Pangolin + realsense)" OFF)
+
+if(realsense2_FOUND AND BUILD_GET_CALIBRATION)
+  add_executable(get_calibration src/get_calibration.cpp)
+  target_link_libraries(get_calibration basalt_ros1 ${catkin_LIBRARIES} ${TBB_LIBRARIES})
+  install(TARGETS get_calibration
+          RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+endif()
+
+
+#set(BASALT_SRC_DIR "$ENV{HOME}/basalt" CACHE PATH "Path to basalt source tree")
+
+#find_package(basalt REQUIRED PATHS "$ENV{HOME}/basalt/build" NO_DEFAULT_PATH)
+
+#find_package(basalt-headers REQUIRED PATHS "$ENV{HOME}/basalt-headers" NO_DEFAULT_PATH)
+set(BASALT_HEADERS_DIR "$ENV{HOME}/basalt-headers" CACHE PATH "basalt-headers source")
+
 find_package(catkin REQUIRED COMPONENTS
   cmake_modules
   roscpp
@@ -33,8 +51,7 @@ find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   message_filters
   image_transport
-  basalt_vio_ros1_msgs
-  basalt
+  basalt_vio_msgs    
 )
 
 find_package(Eigen3 REQUIRED QUIET)
@@ -78,15 +95,19 @@ catkin_package(
 	CATKIN_DEPENDS roscpp nodelet
 	DEPENDS OpenCV
 	)
+
+#set(BASALT_DEVEL_INCLUDE "${CATKIN_DEVEL_PREFIX}/include")
 	
 include_directories(
   include
-  ${Eigen_INCLUDE_DIRS}
-  ${Boost_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
   ${basalt_INCLUDE_DIRS}
+  ${EIGEN3_INCLUDE_DIR}
+  /usr/include/eigen3    
+  ${Boost_INCLUDE_DIRS}
   ${TBB_INCLUDE_DIR}
   ${OpenCV_INCLUDE_DIRS}
+  /home/orinlynx/catkin_ws/devel/include  
 )
 
 add_library(basalt_ros1
@@ -101,7 +122,12 @@ src/vio_publisher.cpp
 src/utils.cpp
 )
 
-target_link_libraries(basalt_ros1 ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${TBB_LIBRARIES})
+set(BASALT_LIB /home/orinlynx/basalt/build/libbasalt.so)   # adjust to the find output
+if(NOT EXISTS ${BASALT_LIB})
+  message(FATAL_ERROR "libbasalt.so not found at ${BASALT_LIB}")
+endif()
+
+target_link_libraries(basalt_ros1 ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${TBB_LIBRARIES} ${BASALT_LIB})
 
 # --- vio_frontend ---
 add_executable(vio_frontend_node src/vio_frontend_node.cpp)
@@ -132,20 +158,13 @@ target_link_libraries(vio_nodelet basalt_ros1  ${catkin_LIBRARIES} ${TBB_LIBRARI
 add_dependencies(vio_nodelet ${catkin_EXPORTED_TARGETS})
 
 # --- realsense tools ---
-if(realsense2_FOUND)
-  add_executable(get_calibration src/get_calibration.cpp)
-  target_link_libraries(get_calibration
-  ${catkin_LIBRARIES} ${TBB_LIBRARIES})
-  install(TARGETS get_calibration
-        ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-	LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
-endif()
+
 
 # --- viz node ---
 add_executable(viz_flow_node src/viz_flow_node.cpp)
 target_link_libraries(viz_flow_node ${catkin_LIBRARIES})
 add_dependencies(viz_flow_node ${catkin_EXPORTED_TARGETS})
+
 
 # --- install ---
 

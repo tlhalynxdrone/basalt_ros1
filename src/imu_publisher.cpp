@@ -13,7 +13,7 @@ IMUPublisher::IMUPublisher(const ros::NodeHandle &node,
 }
 
 void IMUPublisher::processingThread() {
-  basalt::ImuData::Ptr data;
+  basalt::ImuData<double>::Ptr data;
   for (;;) {
     inputQueue_.pop(data);
     if (!data) {

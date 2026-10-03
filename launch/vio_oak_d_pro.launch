@@ -1,0 +1,27 @@
+<launch>
+  <arg name="manager_name" default="vio_nodelet_manager"/>
+  <arg name="calibration_file"
+       default="$(find basalt_ros1)/config/oak-d-pro-epson.json"/>
+  <arg name="vio_config_file"
+       default="$(find basalt_ros1)/config/oak-d-pro-epson.json"/>
+
+  <node pkg="basalt_ros1" type="vio_node"
+	name="vio_node"	clear_params="true" output="screen">
+    <param name="calibration_file" value="$(arg calibration_file)"/>
+    <param name="vio_config_file" value="$(arg vio_config_file)"/>
+    <!--
+	allow for extra rotation/translation between basalt world
+	and real world
+	<rosparam param="extra_translation">[0.0, 0.0, 0.0]</rosparam>
+	<rosparam param="extra_rotation">[0.0, 0.0, 0.0, 1.0]</rosparam>
+    -->
+    <param name="world_frame_id" value="world"/>
+    <param name="odom_frame_id" value="odom"/>
+    <remap from="~left_image" to="/oak/left/image_raw" />
+    <remap from="~right_image" to="/oak/right/image_raw" />
+    <rosparam param="imu_topics">["gyro", "accel"]</rosparam>
+    <remap from="~gyro" to="/camera/gyro/sample" />
+    <remap from="~accel" to="/camera/accel/sample" />
+  </node>
+
+</launch>

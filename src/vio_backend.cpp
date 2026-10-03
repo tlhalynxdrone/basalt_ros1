@@ -19,8 +19,10 @@ VIOBackEnd::VIOBackEnd(const ros::NodeHandle& node,
                        OpticalFlowResultQueue** opt_flow_queue)
     : node_(node) {
   // create VIO object
+  // vio_ = basalt::VioEstimatorFactory::getVioEstimator(
+  //     config, calib, basalt::constants::g, true);
   vio_ = basalt::VioEstimatorFactory::getVioEstimator(
-      config, calib, basalt::constants::g, true);
+    config, calib, basalt::constants::g, true, false);
   vio_->initialize(Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
 
   // if no external queue is provided, subscribe to
@@ -52,7 +54,7 @@ void VIOBackEnd::start() {
 }
 
 void VIOBackEnd::publishingThread() {
-  basalt::PoseVelBiasState::Ptr data;
+  basalt::PoseVelBiasState<double>::Ptr data;
   for (;;) {
     outputQueue_.pop(data);
     if (!data.get()) {

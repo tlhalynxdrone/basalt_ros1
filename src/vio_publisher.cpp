@@ -78,7 +78,7 @@ VIOPublisher::VIOPublisher(const ros::NodeHandle &node) : node_(node) {
   extraTF_ = T_extra_.norm() > 0.001 || q_extra_.w() < 0.99999;
 }
 
-void VIOPublisher::publish(const basalt::PoseVelBiasState::Ptr &data) {
+void VIOPublisher::publish(const basalt::PoseVelBiasState<double>::Ptr &data) {
   const Eigen::Vector3d T_orig = data->T_w_i.translation();
   const Eigen::Quaterniond q_orig = data->T_w_i.unit_quaternion();
   const Eigen::Vector3d ang_vel = data->vel_w_i;

@@ -11,7 +11,7 @@ namespace basalt_ros1 {
 OpticalFlowPublisher::OpticalFlowPublisher(
   const ros::NodeHandle &node, const std::string &topic)
     : node_(node), topic_(topic) {
-  pub_ = node_.advertise<basalt_vio_ros1_msgs::OpticalFlowResult>(
+  pub_ = node_.advertise<basalt_vio_msgs::OpticalFlowResult>(
       topic, 10);
 }
 
@@ -23,7 +23,7 @@ void OpticalFlowPublisher::processingThread() {
       break;  // done!
     }
     if (pub_.getNumSubscribers() != 0) {
-      basalt_vio_ros1_msgs::OpticalFlowResult msg;
+      basalt_vio_msgs::OpticalFlowResult msg;
       msg.header.frame_id = "frame_id";  // XXX make configurable
       msg.header.stamp.sec = data->t_ns / 1000000000LL;
       msg.header.stamp.nsec = data->t_ns % 1000000000LL;
@@ -34,7 +34,7 @@ void OpticalFlowPublisher::processingThread() {
         msg.observations[obs_idx].keypoints.resize(map.size());
         int kp_idx = 0;
         for (const auto &kp : map) {
-          basalt_vio_ros1_msgs::KeyPointToAffine kp2Aff;
+          basalt_vio_msgs::KeyPointToAffine kp2Aff;
           kp2Aff.id = kp.first;
           for (const auto i : irange(0, 6)) {
             kp2Aff.affine_transform[i] = kp.second.data()[i];

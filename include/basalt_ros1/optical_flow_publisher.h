@@ -5,7 +5,7 @@
 #pragma once
 
 #include <basalt/optical_flow/optical_flow.h>
-#include <basalt_vio_ros1_msgs/OpticalFlowResult.h>
+#include <basalt_vio_msgs/OpticalFlowResult.h>
 
 #include <tbb/concurrent_queue.h>
 

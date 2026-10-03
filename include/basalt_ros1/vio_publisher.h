@@ -17,7 +17,7 @@ class VIOPublisher {
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
   VIOPublisher(const ros::NodeHandle& node);
 
-  void publish(const basalt::PoseVelBiasState::Ptr& data);
+  void publish(const basalt::PoseVelBiasState<double>::Ptr& data);
 
  private:
   // ----- variables --

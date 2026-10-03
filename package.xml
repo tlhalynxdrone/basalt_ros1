@@ -20,7 +20,7 @@
   <depend>message_filters</depend>
   <depend>image_transport</depend>
   <depend>basalt</depend>
-  <depend>basalt_vio_ros1_msgs</depend>
+  <depend>basalt_vio_msgs</depend>
   <export>
     <nodelet plugin="${prefix}/nodelet_plugin.xml"/>
   </export>

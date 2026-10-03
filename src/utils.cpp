@@ -49,6 +49,6 @@ void load_calib_and_config(ros::NodeHandle &nh,
   }
   // overwrite debug flags if requested
   nh.getParam("debug_vio", config->vio_debug);
-  nh.getParam("debug_bad_data",  config->vio_debug_bad_data);
+  // nh.getParam("debug_bad_data",  config->vio_debug_bad_data);
 }
 }  // namespace basalt_ros1

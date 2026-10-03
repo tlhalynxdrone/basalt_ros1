@@ -3,7 +3,7 @@
  */
 
 #include <image_transport/image_transport.h>
-#include <basalt_vio_ros1_msgs/OpticalFlowResult.h>
+#include <basalt_vio_msgs/OpticalFlowResult.h>
 #include <sensor_msgs/Image.h>
 #include <message_filters/subscriber.h>
 #include <message_filters/time_synchronizer.h>
@@ -16,7 +16,7 @@ using boost::irange;
 
 class VizFlow {
 public:
-  typedef basalt_vio_ros1_msgs::OpticalFlowResult OptFlow;
+  typedef basalt_vio_msgs::OpticalFlowResult OptFlow;
   typedef sensor_msgs::Image Image;
   VizFlow(const ros::NodeHandle &nh) : node_(nh) {
   }
